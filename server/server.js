@@ -104,9 +104,9 @@ app.put("/api/todolist",(req, res) => {
       data.release() // return the data to pool
 
       if(!err){
-        res.send(`Task with the name: ${name} has been added.`) // display data
+        res.json({ message: `Task with the name: ${name} has been updated.` });
       } else {
-        console.log(err)
+        res.status(500).json({ error: `Error! Message: ${err.message}` });
       }
     })
 
@@ -127,9 +127,9 @@ app.delete("/api/todolist/:id",(req, res) => {
       data.release() // return the data/connection to pool
 
       if(!err){
-        res.send(`Task with the Record ID ${[req.params.id]} has been removed.`) // display data
+        res.json({ message: `Task with the id: ${req.params.id} has been deleted.` });
       } else {
-        console.log(err.message)
+        res.status(500).json({ error: `Error! Message: ${err.message}` });
       }
     })
     

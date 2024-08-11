@@ -1,4 +1,5 @@
 import { addTask } from "@/api";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEventHandler, useState } from "react";
 
 interface ModalProps{
@@ -8,6 +9,9 @@ interface ModalProps{
 
 // dont know what is this for sure
 export const AddTask: React.FC<ModalProps> = ({modalOpen,  setModalOpen}) => {
+  // adding router to refresh the page
+  const router = useRouter();
+
   // Initializing state for the html elements
   const [newTaskTitle, setNewTaskTitle] = useState<string>('');
   const [newTaskDescr, setNewTaskDescr] = useState<string>('');
@@ -32,6 +36,7 @@ export const AddTask: React.FC<ModalProps> = ({modalOpen,  setModalOpen}) => {
     setNewTaskDate("");
     setNewTaskStatus("");
     setModalOpen(false);
+    router.refresh();
   }
 
     // Handle change event
