@@ -1,11 +1,13 @@
 const express = require("express");
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const mysql = require("mysql");
 const PORT = process.env.PORT || 5000;// process.env.PORT = if we want to publish the app later on
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json())
+app.use(cors()); // CORS with default options
 
 /* ----- database connection pool Start ----- */
 const  pool = mysql.createPool({
@@ -26,15 +28,19 @@ app.post("/api/todolist",(req, res) => {
     if(err) return res.json(`Error! Message: ${err.message}`);
     console.log(`connected as id ${data.threadId}`)
 
-    const params = req.body
-    
-    data.query("INSERT INTO task SET ?", params,(err, rows) => {
+    const params = req.body;
+
+    // Constructing the SQL query
+    const sqlCode = 'INSERT INTO task (name, description, date, priority, status) VALUES (?, ?, ?, ?, ?)';
+    const values = [params.name, params.description, params.date, params.priority, params.status]; // Adjust as needed
+
+    data.query(sqlCode, values,(err, rows) => {
       data.release() // return the data to pool
 
       if(!err){
-        res.send(`Task with the name: ${params.name} has been added.`) // display data
+        res.json({ message: `Task with the name: ${params.name} has been added.` });
       } else {
-        console.log(err)
+        res.status(500).json({ error: `Error! Message: ${err.message}` });
       }
     })
 

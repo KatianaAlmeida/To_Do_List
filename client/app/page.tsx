@@ -1,11 +1,13 @@
 import { getAllTasks } from "@/api";
-import { AddTask } from "./components/AddTask";
 import DisplayList from "./components/DisplayList";
+import ButtonAddTask from "./components/ButtonAddTask";
 
-// no idea of what is going on bellow
+// no idea of what async is
 export default async function Home() {
+  // I think we are getting the data from the imported api.ts
   const taskList = await getAllTasks();
-  console.log(taskList);
+  //console.log(taskList);
+  
   return (
     <div className="max-w-2xl mx-auto mt-8">
       <div className="mockup-window bg-base-300 border">
@@ -13,8 +15,11 @@ export default async function Home() {
           <main className="m-5">
             <div className="text-center my-5 flex flex-col gap-4">
               <h1 className="text-2xl font-bold">Todo List App</h1>
+              
               <DisplayList tasks={taskList}/>
-              <AddTask />
+
+              <ButtonAddTask />
+              
             </div>
           </main>
         </div>
