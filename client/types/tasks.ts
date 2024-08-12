@@ -5,3 +5,7 @@ export interface InterfaceTask {
   priority: string,
   status: string
 }
+
+export interface InterfaceIDTask {
+  ID: number
+}

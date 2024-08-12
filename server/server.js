@@ -91,16 +91,16 @@ app.get("/api/todolist/:id",(req, res) => {
 });
 
 // Update task
-app.put("/api/todolist",(req, res) => {
+app.put("/api/todolist/:id",(req, res) => {
   
   pool.getConnection((err, data) => {
     if(err) return res.json(`Error! Message: ${err.message}`);
     console.log(`connected as id ${data.threadId}`)
 
-    const {ID, name, description, date, priority, status} = req.body
+    const {name, description, date, priority, status} = req.body
     
     data.query("UPDATE task SET name = ?,  description = ?, date = ?, priority = ?, status = ? WHERE ID = ?", 
-      [name, description, date, priority, status, ID], (err, rows) => {
+      [name, description, date, priority, status, req.params.id], (err, rows) => {
       data.release() // return the data to pool
 
       if(!err){
