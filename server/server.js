@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 5000;// process.env.PORT = if we want to publis
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json())
-app.use(cors()); // CORS with default options
+app.use(cors()); // CORS with default options to use different ports
 
 /* ----- database connection pool Start ----- */
 const  pool = mysql.createPool({
@@ -135,6 +135,8 @@ app.delete("/api/todolist/:id",(req, res) => {
     
   })
 });
+
+module.exports = app;
 
 /* ----- Listen on enviroment port or 5000 ----- */
 app.listen(PORT, () => {
