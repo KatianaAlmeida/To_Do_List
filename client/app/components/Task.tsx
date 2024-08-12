@@ -77,36 +77,16 @@ const Task: React.FC<DisplayListProps> = ({ task }) => {
 
                     {/* This is the priority radio buttons */}
                     <div className="flex gap-x-3 w-full">
-                      <label className="btn btn-outline">
-                        <input 
-                          type="radio" 
-                          name="priority" 
-                          value='High'
-                          onChange={(e) => setEditTaskTPrior(e.target.value)}
-                          className="hidden peer" 
-                        />
-                        <span className="peer-checked:bg-neutral peer-checked:text-white">High</span>
-                      </label>
-                      <label className="btn btn-outline">
-                        <input 
-                          type="radio" 
-                          name="priority" 
-                          value='Medium'
-                          onChange={(e) => setEditTaskTPrior(e.target.value)}
-                          className="hidden peer"
-                        />
-                        <span className="peer-checked:bg-neutral peer-checked:text-white">Medium</span>
-                      </label>
-                      <label className="btn btn-outline">
-                        <input 
-                          type="radio" 
-                          name="priority" 
-                          value='Low'
-                          onChange={(e) => setEditTaskTPrior(e.target.value)}
-                          className="hidden peer" 
-                        />
-                        <span className="peer-checked:bg-neutral peer-checked:text-white">Low</span>
-                      </label>
+                      <select 
+                        value={editTaskPrior} 
+                        onChange={(e) => setEditTaskTPrior(e.target.value)}
+                        className="select select-bordered w-full"
+                      >
+                        <option value="" disabled hidden>Priority</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                      </select>
                     </div>
 
                     {/* This is to select the due date for the task */}
@@ -119,36 +99,16 @@ const Task: React.FC<DisplayListProps> = ({ task }) => {
 
                     {/* This is the progress radio buttons */}
                     <div className="flex gap-x-3 w-full">
-                      <label className="btn btn-outline">
-                        <input 
-                          type="radio" 
-                          name="progress" 
-                          value='Completed'
-                          onChange={(e) => setEditTaskStatus(e.target.value)}
-                          className="hidden peer"
-                        />
-                        <span className="peer-checked:bg-neutral peer-checked:text-white">Completed</span>
-                      </label>
-                      <label className="btn btn-outline">
-                        <input 
-                          type="radio" 
-                          name="progress" 
-                          value='In Progress'
-                          onChange={(e) => setEditTaskStatus(e.target.value)}
-                          className="hidden peer" 
-                        />
-                        <span className="peer-checked:bg-neutral peer-checked:text-white">In-Progress</span>
-                      </label>
-                      <label className="btn btn-outline">
-                        <input 
-                          type="radio" 
-                          name="progress" 
-                          value='To Do'
-                          onChange={(e) => setEditTaskStatus(e.target.value)}
-                          className="hidden peer" 
-                        />
-                        <span className="peer-checked:bg-neutral peer-checked:text-white">To Do</span>
-                      </label>
+                      <select 
+                        value={editTaskStatus} 
+                        onChange={(e) => setEditTaskStatus(e.target.value)}
+                        className="select select-bordered w-full"
+                      >
+                        <option value="" disabled hidden>Progress</option>
+                        <option value="Completed">Completed</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="To Do">To Do</option>
+                      </select>
                     </div>
                     <button type="submit" className="btn btn-neutral">Update</button>
                   </div>

@@ -46,13 +46,13 @@ const ButtonAddTask = () => {
   const handleNewTaskDescr = async (e: ChangeEvent<HTMLTextAreaElement>) =>{
     setNewTaskDescr(e.target.value);
   };
-  const handleNewTaskPrior = async (e: ChangeEvent<HTMLInputElement>) =>{
+  const handleNewTaskPrior = async (e: ChangeEvent<HTMLSelectElement>) =>{
     setNewTaskTPrior(e.target.value);
   };
   const handleNewTaskDate = async (e: ChangeEvent<HTMLInputElement>) =>{
     setNewTaskDate(e.target.value);
   };
-  const handleNewTaskStatus = async (e: ChangeEvent<HTMLInputElement>) =>{
+  const handleNewTaskStatus = async (e: ChangeEvent<HTMLSelectElement>) =>{
     setNewTaskStatus(e.target.value);
   };
   return (
@@ -83,36 +83,16 @@ const ButtonAddTask = () => {
 
             {/* This is the priority radio buttons */}
             <div className="flex gap-x-3 w-full">
-              <label className="btn btn-outline">
-                <input 
-                  type="radio" 
-                  name="priority" 
-                  value='High'
-                  onChange={handleNewTaskPrior}
-                  className="hidden peer" 
-                />
-                <span className="peer-checked:bg-neutral peer-checked:text-white">High</span>
-              </label>
-              <label className="btn btn-outline">
-                <input 
-                  type="radio" 
-                  name="priority" 
-                  value='Medium'
-                  onChange={handleNewTaskPrior}
-                  className="hidden peer"
-                />
-                <span className="peer-checked:bg-neutral peer-checked:text-white">Medium</span>
-              </label>
-              <label className="btn btn-outline">
-                <input 
-                  type="radio" 
-                  name="priority" 
-                  value='Low'
-                  onChange={handleNewTaskPrior}
-                  className="hidden peer" 
-                />
-                <span className="peer-checked:bg-neutral peer-checked:text-white">Low</span>
-              </label>
+              <select 
+                value={newTaskPrior} 
+                onChange={handleNewTaskPrior} 
+                className="select select-bordered w-full"
+              >
+                <option value="" disabled hidden>Priority</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
             </div>
 
             {/* This is to select the due date for the task */}
@@ -125,36 +105,16 @@ const ButtonAddTask = () => {
 
             {/* This is the progress radio buttons */}
             <div className="flex gap-x-3 w-full">
-              <label className="btn btn-outline">
-                <input 
-                  type="radio" 
-                  name="progress" 
-                  value='Completed'
-                  onChange={handleNewTaskStatus}
-                  className="hidden peer"
-                />
-                <span className="peer-checked:bg-neutral peer-checked:text-white">Completed</span>
-              </label>
-              <label className="btn btn-outline">
-                <input 
-                  type="radio" 
-                  name="progress" 
-                  value='In Progress'
-                  onChange={handleNewTaskStatus}
-                  className="hidden peer" 
-                />
-                <span className="peer-checked:bg-neutral peer-checked:text-white">In-Progress</span>
-              </label>
-              <label className="btn btn-outline">
-                <input 
-                  type="radio" 
-                  name="progress" 
-                  value='To Do'
-                  onChange={handleNewTaskStatus}
-                  className="hidden peer" 
-                />
-                <span className="peer-checked:bg-neutral peer-checked:text-white">To Do</span>
-              </label>
+              <select 
+                value={newTaskStatus} 
+                onChange={handleNewTaskStatus} 
+                className="select select-bordered w-full"
+              >
+                <option value="" disabled hidden>Progress</option>
+                <option value="Completed">Completed</option>
+                <option value="In Progress">In Progress</option>
+                <option value="To Do">To Do</option>
+              </select>
             </div>
             <button type="submit" className="btn btn-neutral">Create</button>
           </div>
