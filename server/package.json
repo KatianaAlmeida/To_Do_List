@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "runServer.js",
   "scripts": {
     "test": "jest",
     "start": "node server",

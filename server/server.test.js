@@ -1,8 +1,8 @@
 const request = require('supertest');
-const app = require('./server');
+const app = require('./serverAPI');
 
 describe('POST /api/todolist', () => {
-  it('should create a new task', async () => {
+  test('should create a new task', async () => {
     const newTask = {
       name: 'Test Task',
       description: 'This is a test task.',
@@ -13,11 +13,12 @@ describe('POST /api/todolist', () => {
     const response = await request(app).post('/api/todolist').send(newTask);
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toBe(`Task with the name: ${newTask.name} has been added.`);
+    expect(response.headers['content-type']).toEqual(expect.stringContaining("json"));
   });
 });
 
 describe('GET /api/todolist', () => {
-  it('should fetch all tasks', async () => {
+  test('should fetch all tasks', async () => {
     const response = await request(app).get('/api/todolist');
     expect(response.statusCode).toBe(200);
     expect(Array.isArray(response.body)).toBe(true);
@@ -25,7 +26,7 @@ describe('GET /api/todolist', () => {
 });
 
 describe('PUT /api/todolist/:id', () => {
-  it('should update an existing task', async () => {
+  test('should update an existing task', async () => {
     const taskId = 22; // Assuming a task with ID 1 exists
     const updatedTask = {
       name: 'Updated Task',

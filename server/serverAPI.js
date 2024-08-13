@@ -2,7 +2,6 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require("mysql");
-const PORT = process.env.PORT || 5000;// process.env.PORT = if we want to publish the app later on
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
@@ -136,9 +135,6 @@ app.delete("/api/todolist/:id",(req, res) => {
   })
 });
 
-module.exports = app;
+module.exports = app; //  making the app object available to other modules in your application
 
-/* ----- Listen on enviroment port or 5000 ----- */
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
-});
+//export default app
