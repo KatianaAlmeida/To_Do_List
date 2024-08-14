@@ -1,4 +1,4 @@
-import { getAllTasks } from "@/api";
+import { getAllTasks } from "../api";
 import DisplayList from "./components/DisplayList";
 import ButtonAddTask from "./components/ButtonAddTask";
 

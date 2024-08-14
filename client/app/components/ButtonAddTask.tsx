@@ -1,7 +1,7 @@
 "use client";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Modal } from "./Modal";
-import { addTask } from "@/api";
+import { addTask } from "../../api";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEventHandler, useState } from "react";
 
@@ -101,6 +101,7 @@ const ButtonAddTask = () => {
               onChange={handleNewTaskDate}
               type="date" 
               className="input input-bordered w-full" 
+              data-testid="Date"
             />
 
             {/* This is the progress radio buttons */}

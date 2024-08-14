@@ -1,10 +1,10 @@
 "use client";
 import { FormEventHandler, useState } from "react";
-import { InterfaceTask, InterfaceIDTask } from '@/types/tasks'
+import { InterfaceTask, InterfaceIDTask } from '../../types/tasks'
 import { FaEdit } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
 import { Modal } from './Modal';
-import { editTask, deleteTask } from "@/api";
+import { editTask, deleteTask } from "../..//api";
 import { useRouter } from "next/navigation";
 export interface InterfaceTaskWithID extends InterfaceTask, InterfaceIDTask {}
 
