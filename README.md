@@ -12,8 +12,8 @@ This is a full-stack To-Do application that allows users to manage their tasks e
 - [Usage](#usage)
 - [Challenges](#challenges)
 - [Future Improvements](#future-improvements)
-- [Screenshots](#screenshots)
 - [Author](#author)
+- [Screenshots](#screenshots)
 
 
 ## Features
@@ -49,6 +49,11 @@ This is a full-stack To-Do application that allows users to manage their tasks e
 - **Enhanced UI**: Add more customization options for task categories and priority levels.
 - **Push Notifications**: Notify users about upcoming or overdue tasks.
 
+## Author
+
+- Portfolio Website - [Katiana de Almeida](https://katiana-de-almeida.onrender.com/)
+- Katiana Almeida - [Katianaalmeida48@gmail.com]
+- Linkdlin - [KatianaDeAlmeida](https://www.linkedin.com/in/katiana-almeida-1731ba23a/)
 
 ### Screenshot
 
@@ -56,11 +61,4 @@ This is a full-stack To-Do application that allows users to manage their tasks e
 ![create-tasks-modal](images/create_modal.png)
 ![edit-tasks-modal](images//edit_modal.png)
 ![delete-tasks-modal](images/delete_modal.png)
-
-## Author
-
-- Portfolio Website - [Katiana de Almeida](https://katiana-de-almeida.onrender.com/)
-- Katiana Almeida - [Katianaalmeida48@gmail.com]
-- Linkdlin - [KatianaDeAlmeida](https://www.linkedin.com/in/katiana-almeida-1731ba23a/)
-
 
