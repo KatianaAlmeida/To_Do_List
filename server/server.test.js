@@ -10,9 +10,12 @@ describe('POST /api/todolist', () => {
       priority: 'High',
       status: 'Pending'
     };
+    // Send a POST request to the /api/todolist endpoint with the new task data
     const response = await request(app).post('/api/todolist').send(newTask);
+     // Assert that the response status code is 200 (OK)
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toBe(`Task with the name: ${newTask.name} has been added.`);
+    // Assert that the response has a content-type header containing "json"
     expect(response.headers['content-type']).toEqual(expect.stringContaining("json"));
   });
 });

@@ -3,10 +3,12 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require("mysql");
 
-const app = express();
+const app = express(); // Initialize the Express application
+
+// Use bodyParser middleware to parse URL-encoded data with the querystring library (extended: false)
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json())
-app.use(cors()); // CORS with default options to use different ports
+app.use(bodyParser.json()) // Use bodyParser middleware to parse JSON data
+app.use(cors()); // Enable CORS with default options, allowing cross-origin requests from different ports
 
 /* ----- database connection pool Start ----- */
 const  pool = mysql.createPool({
@@ -18,11 +20,12 @@ const  pool = mysql.createPool({
 })
 /* ----- database connection pool End----- */
 
-/* ----- created a backend endpoint (the location the API service is located) ----- */
+/* ----- create a backend endpoint (the location the API service is located) ----- */
 
 // Create/Insert task
 app.post("/api/todolist",(req, res) => {
-  
+
+  // Get a connection from the pool
   pool.getConnection((err, data) => {
     if(err) return res.json(`Error! Message: ${err.message}`);
     console.log(`connected as id ${data.threadId}`)
@@ -33,12 +36,15 @@ app.post("/api/todolist",(req, res) => {
     const sqlCode = 'INSERT INTO task (name, description, date, priority, status) VALUES (?, ?, ?, ?, ?)';
     const values = [params.name, params.description, params.date, params.priority, params.status]; // Adjust as needed
 
+    // Execute the SQL query
     data.query(sqlCode, values,(err, rows) => {
-      data.release() // return the data to pool
+      data.release() // Release the connection back to the pool
 
       if(!err){
+        // Send a success message as a JSON response
         res.json({ message: `Task with the name: ${params.name} has been added.` });
       } else {
+        // Send an error message as a JSON response with status 500 (Internal Server Error)
         res.status(500).json({ error: `Error! Message: ${err.message}` });
       }
     })
@@ -135,6 +141,6 @@ app.delete("/api/todolist/:id",(req, res) => {
   })
 });
 
-module.exports = app; //  making the app object available to other modules in your application
+module.exports = app; //  making the app object available to other modules in the application
 
 //export default app

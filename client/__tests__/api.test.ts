@@ -8,7 +8,7 @@ fetchMock.enableMocks();
 
 describe('API Functions', () => {
   beforeEach(() => {
-    fetchMock.resetMocks();
+    fetchMock.resetMocks(); // Reset mocks before each test to ensure clean state
   });
 
   test('getAllTasks should return tasks', async () => {
@@ -17,19 +17,29 @@ describe('API Functions', () => {
       { ID: 2, name: 'Task 2', description: 'Description 2', date: '2024-08-02', priority: 'Medium', status: 'Completed' },
     ];
 
+    // Mock the fetch response for the API call
     fetchMock.mockResponseOnce(JSON.stringify(mockTasks));
 
+    // Call the function to test
     const tasks = await getAllTasks();
 
     expect(tasks).toEqual(mockTasks);
+    // Verify that fetch was called with the correct URL and options
     expect(fetchMock).toHaveBeenCalledWith('http://localhost:5000/api/todolist', { cache: 'no-store' });
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   test('addTask should add a new task', async () => {
-    const newTask: InterfaceTask = { name: 'New Task', description: 'New Task Description', date: '2024-08-03', priority: 'Low', status: 'Pending' };
-    const mockResponse = { ...newTask, ID: 3 };
+    const newTask: InterfaceTask = { 
+      name: 'New Task', 
+      description: 'New Task Description', 
+      date: '2024-08-03', 
+      priority: 'Low', 
+      status: 'Pending' 
+    };
+    const mockResponse = { ...newTask, ID: 3 }; // Mock response includes an ID for the new task
 
+    // Mock the fetch response for the API call
     fetchMock.mockResponseOnce(JSON.stringify(mockResponse));
 
     const task = await addTask(newTask);

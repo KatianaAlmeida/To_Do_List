@@ -6,23 +6,24 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEventHandler, useState } from "react";
 
 const ButtonAddTask = () => {
-  // modal
+   // State to control the visibility of the modal
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   
-  // adding router to refresh the page
+ // Router to refresh the page after adding a task
   const router = useRouter();
 
-  // Initializing state for the html elements
+  // Initializing state variables for the html elements
   const [newTaskTitle, setNewTaskTitle] = useState<string>('');
   const [newTaskDescr, setNewTaskDescr] = useState<string>('');
   const [newTaskPrior, setNewTaskTPrior] = useState<string>('');
   const [newTaskDate, setNewTaskDate] = useState<string>('');
   const [newTaskStatus, setNewTaskStatus] = useState<string>('');
 
-  // I think is a function prevent the form from submiting ad default and sends the data
+  // Function to handle form submission
   const handleSubmitNewTask: FormEventHandler<HTMLFormElement> = async (e) =>{
     e.preventDefault();
-    //console.log(newTaskStatus);
+    
+    // Call API to add the new task
     await addTask({
       name: newTaskTitle,
       description: newTaskDescr,
@@ -35,11 +36,12 @@ const ButtonAddTask = () => {
     setNewTaskTPrior("");
     setNewTaskDate("");
     setNewTaskStatus("");
-    setModalOpen(false);
-    router.refresh();
+
+    setModalOpen(false); // Close the modal
+    router.refresh(); // Refresh the page to show the updated task list
   };
 
-  // Handle change event
+  // Event handler for the tasks fields
   const handleNewTaskTitle = async (e: ChangeEvent<HTMLInputElement>) =>{
     setNewTaskTitle(e.target.value);
   };
@@ -57,15 +59,17 @@ const ButtonAddTask = () => {
   };
   return (
     <div>
+      {/* Button to open the modal */}
       <button onClick={() => setModalOpen(true)} className="btn btn-neutral w-full">
         Add New Task <AiOutlinePlus className="ml-2" size={18} />
       </button>
 
+      {/* Modal component to add a new task */}
       <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>
         <form onSubmit={handleSubmitNewTask}>
           <h3 className="font-bold text-lg">Create New Task</h3>
           <div className="modal-action flex-col gap-y-3">
-            {/* No idea what is this*/}
+
             <input 
               value={newTaskTitle} 
               onChange={handleNewTaskTitle}
