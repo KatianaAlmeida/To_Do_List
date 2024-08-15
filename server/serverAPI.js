@@ -11,57 +11,58 @@ app.use(bodyParser.json()) // Use bodyParser middleware to parse JSON data
 app.use(cors()); // Enable CORS with default options, allowing cross-origin requests from different ports
 
 /* ----- database connection pool Start ----- */
+/*
 const  pool = mysql.createPool({
   connectionLimit: 10, // the maximum number of connections to create at once 
   host           : "localhost",
   user           : "root",
   password       : "mysql",
   database       : "to_do_list"
+})*/
+
+const  pool = mysql.createPool({
+  connectionLimit: 10, // the maximum number of connections to create at once 
+  host           : "bxkh70urscc1hzsolgcl-mysql.services.clever-cloud.com",
+  user           : "uuzmmpr5bpjwazvp",
+  password       : "hUTaSN7DPQuIw1ftekKv",
+  database       : "bxkh70urscc1hzsolgcl"
 })
 /* ----- database connection pool End----- */
 
 /* ----- create a backend endpoint (the location the API service is located) ----- */
 
 // Create/Insert task
-app.post("/api/todolist", async (req, res) => {
-  try {
-      // Get a connection from the pool
-      pool.getConnection((err, data) => {
-          if (err) throw new Error(`Error getting connection: ${err.message}`);
-          
-          console.log(`connected as id ${data.threadId}`);
+app.post("/api/todolist",(req, res) => {
 
-          const params = req.body;
+  // Get a connection from the pool
+  pool.getConnection((err, data) => {
+    if(err) return res.json(`Error: ${err}`);
+    
+    console.log(`connected as id ${data.threadId}`)
 
-          // Constructing the SQL query
-          const sqlCode = 'INSERT INTO task (name, description, date, priority, status) VALUES (?, ?, ?, ?, ?)';
-          const values = [params.name, params.description, params.date, params.priority, params.status]; // Adjust as needed
+    const params = req.body;
 
-          // Execute the SQL query
-          data.query(sqlCode, values, (err, rows) => {
-              data.release(); // Release the connection back to the pool
+    // Constructing the SQL query
+    const sqlCode = 'INSERT INTO task (name, description, date, priority, status) VALUES (?, ?, ?, ?, ?)';
+    const values = [params.name, params.description, params.date, params.priority, params.status]; // Adjust as needed
 
-              if (!err) {
-                  // Send a success message as a JSON response
-                  res.json({ message: `Task with the name: ${params.name} has been added.` });
-              } else {
-                  // Send an error message as a JSON response with status 500 (Internal Server Error)
-                  throw new Error(`Error executing query: ${err.message}`);
-              }
-          });
+    // Execute the SQL query
+    data.query(sqlCode, values,(err, rows) => {
+      data.release() // Release the connection back to the pool
 
-          console.log(req.body);
-      });
-  } catch (err) {
-    if (err instanceof AggregateError) {
-        for (let individualError of err.errors) {
-            console.error(individualError.message);
-        }
-    }
-}
+      if(!err){
+        // Send a success message as a JSON response
+        res.json({ message: `Task with the name: ${params.name} has been added.` });
+      } else {
+        // Send an error message as a JSON response with status 500 (Internal Server Error)
+        res.status(500).json({ error: `Error! Message: ${err.message}` });
+      }
+    })
 
+    console.log(req.body)
+    
+  })
 });
-
 
 // Read/Select All task
 app.get("/api/todolist",(req, res) => {
