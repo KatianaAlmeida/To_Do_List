@@ -23,36 +23,45 @@ const  pool = mysql.createPool({
 /* ----- create a backend endpoint (the location the API service is located) ----- */
 
 // Create/Insert task
-app.post("/api/todolist",(req, res) => {
+app.post("/api/todolist", async (req, res) => {
+  try {
+      // Get a connection from the pool
+      pool.getConnection((err, data) => {
+          if (err) throw new Error(`Error getting connection: ${err.message}`);
+          
+          console.log(`connected as id ${data.threadId}`);
 
-  // Get a connection from the pool
-  pool.getConnection((err, data) => {
-    if(err) return res.json(`Error: ${err}`);
-    console.log(`connected as id ${data.threadId}`)
+          const params = req.body;
 
-    const params = req.body;
+          // Constructing the SQL query
+          const sqlCode = 'INSERT INTO task (name, description, date, priority, status) VALUES (?, ?, ?, ?, ?)';
+          const values = [params.name, params.description, params.date, params.priority, params.status]; // Adjust as needed
 
-    // Constructing the SQL query
-    const sqlCode = 'INSERT INTO task (name, description, date, priority, status) VALUES (?, ?, ?, ?, ?)';
-    const values = [params.name, params.description, params.date, params.priority, params.status]; // Adjust as needed
+          // Execute the SQL query
+          data.query(sqlCode, values, (err, rows) => {
+              data.release(); // Release the connection back to the pool
 
-    // Execute the SQL query
-    data.query(sqlCode, values,(err, rows) => {
-      data.release() // Release the connection back to the pool
+              if (!err) {
+                  // Send a success message as a JSON response
+                  res.json({ message: `Task with the name: ${params.name} has been added.` });
+              } else {
+                  // Send an error message as a JSON response with status 500 (Internal Server Error)
+                  throw new Error(`Error executing query: ${err.message}`);
+              }
+          });
 
-      if(!err){
-        // Send a success message as a JSON response
-        res.json({ message: `Task with the name: ${params.name} has been added.` });
-      } else {
-        // Send an error message as a JSON response with status 500 (Internal Server Error)
-        res.status(500).json({ error: `Error! Message: ${err.message}` });
-      }
-    })
+          console.log(req.body);
+      });
+  } catch (err) {
+    if (err instanceof AggregateError) {
+        for (let individualError of err.errors) {
+            console.error(individualError.message);
+        }
+    }
+}
 
-    console.log(req.body)
-    
-  })
 });
+
 
 // Read/Select All task
 app.get("/api/todolist",(req, res) => {
