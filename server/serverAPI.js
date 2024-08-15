@@ -27,7 +27,7 @@ app.post("/api/todolist",(req, res) => {
 
   // Get a connection from the pool
   pool.getConnection((err, data) => {
-    if(err) return res.json(`Error! Message: ${err.message}`);
+    if(err) return res.json(`Error: ${err}`);
     console.log(`connected as id ${data.threadId}`)
 
     const params = req.body;
@@ -58,7 +58,7 @@ app.post("/api/todolist",(req, res) => {
 app.get("/api/todolist",(req, res) => {
   
   pool.getConnection((err, data) => {
-    if(err) return res.json(`Error! Message: ${err.message}`);
+    if(err) return res.json(`Error: ${err}`);
     console.log(`connected as id ${data.threadId}`)
 
     data.query("SELECT * FROM task", (err, rows) => {
@@ -99,7 +99,7 @@ app.get("/api/todolist/:id",(req, res) => {
 app.put("/api/todolist/:id",(req, res) => {
   
   pool.getConnection((err, data) => {
-    if(err) return res.json(`Error! Message: ${err.message}`);
+    if(err) return res.json(`Error: ${err}`);
     console.log(`connected as id ${data.threadId}`)
 
     const {name, description, date, priority, status} = req.body
@@ -124,7 +124,7 @@ app.put("/api/todolist/:id",(req, res) => {
 app.delete("/api/todolist/:id",(req, res) => {
 
   pool.getConnection((err, data) => {
-    if(err) return res.json(`Error! Message: ${err.message}`);
+    if(err) return res.json(`Error: ${err}`);
     console.log(`connected as id ${data.threadId}`)
     
     // [req.params.id] -> get the id being passed from the browser into the code
