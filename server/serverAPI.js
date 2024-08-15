@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json()) // Use bodyParser middleware to parse JSON data
 app.use(cors()); // Enable CORS with default options, allowing cross-origin requests from different ports
 
-/* ----- database connection pool Start ----- */
+/* ----- database connection pool Start -----              LOCALHOST */
 /*
 const  pool = mysql.createPool({
   connectionLimit: 10, // the maximum number of connections to create at once 
@@ -19,7 +19,7 @@ const  pool = mysql.createPool({
   password       : "mysql",
   database       : "to_do_list"
 })*/
-
+/* ----- database connection pool Start -----              CONSOLE CLEVER CLOUD */
 const  pool = mysql.createPool({
   connectionLimit: 10, // the maximum number of connections to create at once 
   host           : "bxkh70urscc1hzsolgcl-mysql.services.clever-cloud.com",

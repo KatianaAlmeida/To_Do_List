@@ -2,7 +2,8 @@ import { InterfaceTask, InterfaceIDTask } from "./types/tasks";
 // Interface extending both InterfaceTask and InterfaceIDTask to represent a task with an ID
 export interface InterfaceTaskWithID extends InterfaceTask, InterfaceIDTask {}
 
-const baseUrl = 'http://localhost:5000'; // Base URL for the API
+//const baseUrl = 'http://localhost:5000'; // Base URL for the API              LOCALHOST
+const baseUrl = 'https://to-do-list-0tc3.onrender.com';  // RENDER
 
 // Function to fetch all tasks from the API
 export const getAllTasks = async (): Promise<InterfaceTaskWithID[]> => {
