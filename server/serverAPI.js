@@ -19,13 +19,13 @@ const  pool = mysql.createPool({
   password       : "mysql",
   database       : "to_do_list"
 })*/
-/* ----- database connection pool Start -----              CONSOLE CLEVER CLOUD */
+/* ----- database connection pool Start -----              freesqldatabase */
 const  pool = mysql.createPool({
   connectionLimit: 10, // the maximum number of connections to create at once 
-  host           : "sql7.freesqldatabase.com",
-  user           : "sql7726750",
-  password       : "ateV3SXYWE",
-  database       : "sql7726750"
+  host           : process.env.host,
+  user           : process.env.user,
+  password       : process.env.password,
+  database       : process.env.database
 })
 /* ----- database connection pool End----- */
 
