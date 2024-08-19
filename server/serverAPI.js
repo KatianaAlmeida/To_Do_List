@@ -22,10 +22,10 @@ const  pool = mysql.createPool({
 /* ----- database connection pool Start -----              CONSOLE CLEVER CLOUD */
 const  pool = mysql.createPool({
   connectionLimit: 10, // the maximum number of connections to create at once 
-  host           : "bxkh70urscc1hzsolgcl-mysql.services.clever-cloud.com",
-  user           : "uuzmmpr5bpjwazvp",
-  password       : "hUTaSN7DPQuIw1ftekKv",
-  database       : "bxkh70urscc1hzsolgcl"
+  host           : "sql7.freesqldatabase.com",
+  user           : "sql7726750",
+  password       : "ateV3SXYWE",
+  database       : "sql7726750"
 })
 /* ----- database connection pool End----- */
 
