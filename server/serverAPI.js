@@ -21,14 +21,14 @@ const  pool = mysql.createPool({
 })*/
 /* ----- database connection pool Start -----              freesqldatabase */
 const  pool = mysql.createPool({
-  connectionLimit: 10, // the maximum number of connections to create at once 
+  connectionLimit: process.env.connectionLimit, // the maximum number of connections to create at once 
   host           : process.env.host,
   user           : process.env.user,
   password       : process.env.password,
   database       : process.env.database,
   waitForConnections: true,
-  queueLimit: 0,
-  connectTimeout: 60000
+  queueLimit: process.env.queueLimit,
+  connectTimeout: process.env.connectTimeout
 })
 /* ----- database connection pool End----- */
 
