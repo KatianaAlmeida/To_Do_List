@@ -1,6 +1,125 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const app = express(); // Initialize the Express application
+
+// Use bodyParser middleware to parse URL-encoded data with the querystring library (extended: false)
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json()) // Use bodyParser middleware to parse JSON data
+app.use(cors()); // Enable CORS with default options, allowing cross-origin requests from different ports
+
+/* ----- database connection pool Start -----              SupaBase - PostgreSQL*/
+const { Pool } = require("pg");
+const pool = new Pool({
+  host: process.env.host,
+  user: process.env.user,
+  password: process.env.password,
+  database: process.env.database,
+  port: process.env.port,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
+/* ----- database connection pool End----- */
+
+/* ----- create a backend endpoint (the location the API service is located) ----- */
+
+// Create/Insert task
+app.post("/api/todolist", async (req, res) => {
+  try {
+    const { name, description, date, priority, status } = req.body;
+
+    await pool.query(
+      "INSERT INTO task (name, description, date, priority, status) VALUES ($1,$2,$3,$4,$5)",
+      [name, description, date, priority, status]
+    );
+
+    res.json({ message: "Task added successfully" });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Read/Select All task
+app.get("/api/todolist", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM task");
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Read/Select by ID task
+app.get("/api/todolist/:id", async (req, res) => {
+  try {
+
+    const id = req.params.id;
+
+    const result = await pool.query(
+      "SELECT * FROM task WHERE id = $1",
+      [id]
+    );
+
+    res.json(result.rows);
+
+  } catch (err) {
+    res.status(500).json({
+      error: `Error! Message: ${err.message}`
+    });
+  }
+});
+// Update task
+app.put("/api/todolist/:id", async (req, res) => {
+
+  try {
+
+    const { name, description, date, priority, status } = req.body;
+    const id = req.params.id;
+
+    await pool.query(
+      "UPDATE task SET name = $1, description = $2, date = $3, priority = $4, status = $5 WHERE id = $6",
+      [name, description, date, priority, status, id]
+    );
+
+    res.json({
+      message: `Task with the name: ${name} has been updated.`
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      error: `Error! Message: ${err.message}`
+    });
+  }
+
+});
+
+// Delete task
+app.delete("/api/todolist/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query("DELETE FROM task WHERE id = $1 RETURNING *", [id]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    res.json({ message: `Task with id ${id} has been deleted.` });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+module.exports = app; //  making the app object available to other modules in the application
+
+//export default app
+
+/*
+// ---------------- LOCAL_HOST -----------------
+const express = require("express");
+const bodyParser = require('body-parser');
+const cors = require('cors');
 const mysql = require("mysql");
 
 const app = express(); // Initialize the Express application
@@ -10,29 +129,17 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json()) // Use bodyParser middleware to parse JSON data
 app.use(cors()); // Enable CORS with default options, allowing cross-origin requests from different ports
 
-/* ----- database connection pool Start -----              LOCALHOST */
-/*
+// ----- database connection pool Start -----              LOCALHOST 
+
 const  pool = mysql.createPool({
   connectionLimit: 10, // the maximum number of connections to create at once 
   host           : "localhost",
   user           : "root",
   password       : "mysql",
   database       : "to_do_list"
-})*/
-/* ----- database connection pool Start -----              freesqldatabase */
-const pool = mysql.createPool({
-  connectionLimit: Number(process.env.connectionLimit), // the maximum number of connections to create at once 
-  host: process.env.host,
-  user: process.env.user,
-  password: process.env.password,
-  database: process.env.database,
-  waitForConnections: true,
-  queueLimit: Number(process.env.queueLimit),
-  connectTimeout: Number(process.env.connectTimeout)
-});
-/* ----- database connection pool End----- */
+})
 
-/* ----- create a backend endpoint (the location the API service is located) ----- */
+// ----- create a backend endpoint (the location the API service is located) ----- 
 
 // Create/Insert task
 app.post("/api/todolist",(req, res) => {
@@ -157,3 +264,4 @@ app.delete("/api/todolist/:id",(req, res) => {
 module.exports = app; //  making the app object available to other modules in the application
 
 //export default app
+*/
