@@ -20,16 +20,16 @@ const  pool = mysql.createPool({
   database       : "to_do_list"
 })*/
 /* ----- database connection pool Start -----              freesqldatabase */
-const  pool = mysql.createPool({
-  connectionLimit: process.env.connectionLimit, // the maximum number of connections to create at once 
-  host           : process.env.host,
-  user           : process.env.user,
-  password       : process.env.password,
-  database       : process.env.database,
+const pool = mysql.createPool({
+  connectionLimit: Number(process.env.connectionLimit), // the maximum number of connections to create at once 
+  host: process.env.host,
+  user: process.env.user,
+  password: process.env.password,
+  database: process.env.database,
   waitForConnections: true,
-  queueLimit: process.env.queueLimit,
-  connectTimeout: process.env.connectTimeout
-})
+  queueLimit: Number(process.env.queueLimit),
+  connectTimeout: Number(process.env.connectTimeout)
+});
 /* ----- database connection pool End----- */
 
 /* ----- create a backend endpoint (the location the API service is located) ----- */
