@@ -92,6 +92,8 @@ app.use(cors()); // Enable CORS with default options, allowing cross-origin requ
 
 // ----- database connection pool Start -----              LOCALHOST 
 
+// ----- database connection pool Start -----              LOCALHOST 
+
 const  pool = mysql.createPool({
   connectionLimit: 10, // the maximum number of connections to create at once 
   host           : "localhost",
@@ -237,4 +239,5 @@ app.delete("/api/todolist/:id",(req, res) => {
 module.exports = app; //  making the app object available to other modules in the application
 
 //export default app
+*/
 */
