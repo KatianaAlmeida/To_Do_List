@@ -1,3 +1,83 @@
+// serverAPI.js
+const express = require("express");
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const supabase = require("./supabaseClient"); // import client
+
+const app = express();
+
+// Middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cors());
+
+// ---------------- API Endpoints ---------------- //
+
+// GET all tasks
+app.get("/api/todolist", async (req, res) => {
+  const { data, error } = await supabase
+    .from("task")
+    .select("*")
+    .order("id", { ascending: true });
+
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+
+// GET task by ID
+app.get("/api/todolist/:id", async (req, res) => {
+  const { id } = req.params;
+  const { data, error } = await supabase
+    .from("task")
+    .select("*")
+    .eq("id", id);
+
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+
+// CREATE task
+app.post("/api/todolist", async (req, res) => {
+  const { name, description, date, priority, status } = req.body;
+
+  const { data, error } = await supabase
+    .from("task")
+    .insert([{ name, description, date, priority, status }]);
+
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ message: `Task "${name}" has been added.` });
+});
+
+// UPDATE task
+app.put("/api/todolist/:id", async (req, res) => {
+  const { id } = req.params;
+  const { name, description, date, priority, status } = req.body;
+
+  const { data, error } = await supabase
+    .from("task")
+    .update({ name, description, date, priority, status })
+    .eq("id", id);
+
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ message: `Task "${name}" has been updated.` });
+});
+
+// DELETE task
+app.delete("/api/todolist/:id", async (req, res) => {
+  const { id } = req.params;
+  const { data, error } = await supabase
+    .from("task")
+    .delete()
+    .eq("id", id);
+
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ message: `Task with ID ${id} has been deleted.` });
+});
+
+module.exports = app;
+
+/*
+// ---------------- LOCAL_HOST -----------------
 const express = require("express");
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -10,29 +90,29 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json()) // Use bodyParser middleware to parse JSON data
 app.use(cors()); // Enable CORS with default options, allowing cross-origin requests from different ports
 
-/* ----- database connection pool Start -----              LOCALHOST */
-/*
+// ----- database connection pool Start -----              LOCALHOST 
+
 const  pool = mysql.createPool({
   connectionLimit: 10, // the maximum number of connections to create at once 
   host           : "localhost",
   user           : "root",
   password       : "mysql",
   database       : "to_do_list"
-})*/
-/* ----- database connection pool Start -----              freesqldatabase */
+})
+// ----- database connection pool Start -----              freesqldatabase 
 const  pool = mysql.createPool({
-  connectionLimit: process.env.connectionLimit, // the maximum number of connections to create at once 
+  connectionLimit: 10, // the maximum number of connections to create at once 
   host           : process.env.host,
   user           : process.env.user,
   password       : process.env.password,
   database       : process.env.database,
   waitForConnections: true,
-  queueLimit: process.env.queueLimit,
-  connectTimeout: process.env.connectTimeout
+  queueLimit: 0,
+  connectTimeout: 60000
 })
-/* ----- database connection pool End----- */
+// ----- database connection pool End----- 
 
-/* ----- create a backend endpoint (the location the API service is located) ----- */
+// ----- create a backend endpoint (the location the API service is located) ----- 
 
 // Create/Insert task
 app.post("/api/todolist",(req, res) => {
@@ -157,3 +237,4 @@ app.delete("/api/todolist/:id",(req, res) => {
 module.exports = app; //  making the app object available to other modules in the application
 
 //export default app
+*/
