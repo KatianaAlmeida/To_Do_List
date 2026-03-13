@@ -8,8 +8,7 @@ const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 // Function to fetch all tasks from the API
 export const getAllTasks = async (): Promise<InterfaceTaskWithID[]> => {
-  //const result = await fetch(`${baseUrl}/api/todolist`, {cache: 'no-store'}); // Fetches tasks, avoiding caching (not to store any cached copies, the client must fetch the resource from the server each time it’s needed)
-  const result = await fetch(`${baseUrl}/api/todolist`, {next: { revalidate: 5 }});
+  const result = await fetch(`${baseUrl}/api/todolist`, {cache: 'no-store'}); // Fetches tasks, avoiding caching (not to store any cached copies, the client must fetch the resource from the server each time it’s needed)
   if (!result.ok) {
     const text = await result.text();
     throw new Error(`API Error ${result.status}: ${text}`);

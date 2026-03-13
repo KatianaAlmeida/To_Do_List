@@ -2,7 +2,7 @@ import { getAllTasks } from "../api"; // Importing the function to fetch tasks f
 import DisplayList from "./components/DisplayList"; // Importing a component to display the task list
 import ButtonAddTask from "./components/ButtonAddTask";
 
-
+export const dynamic = "force-dynamic";
 export default async function Home() {
   // Fetch the task list asynchronously from the API ???
   const taskList = await getAllTasks();
