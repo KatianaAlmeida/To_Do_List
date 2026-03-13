@@ -2,12 +2,18 @@ import { InterfaceTask, InterfaceIDTask } from "./types/tasks";
 // Interface extending both InterfaceTask and InterfaceIDTask to represent a task with an ID
 export interface InterfaceTaskWithID extends InterfaceTask, InterfaceIDTask {}
 
-//const baseUrl = 'http://localhost:5000'; // Base URL for the API              LOCALHOST
-const baseUrl = 'https://to-do-list-0tc3.onrender.com';  // RENDER
+//const baseUrl = 'http://localhost:5000'; // Base URL for the API     LOCALHOST
+//const baseUrl = 'https://to-do-list-0tc3.onrender.com';  // RENDER
+const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 // Function to fetch all tasks from the API
 export const getAllTasks = async (): Promise<InterfaceTaskWithID[]> => {
-  const result = await fetch(`${baseUrl}/api/todolist`, {cache: 'no-store'}); // Fetches tasks, avoiding caching (not to store any cached copies, the client must fetch the resource from the server each time it’s needed)
+  //const result = await fetch(`${baseUrl}/api/todolist`, {cache: 'no-store'}); // Fetches tasks, avoiding caching (not to store any cached copies, the client must fetch the resource from the server each time it’s needed)
+  const result = await fetch(`${baseUrl}/api/todolist`, {next: { revalidate: 5 }});
+  if (!result.ok) {
+    const text = await result.text();
+    throw new Error(`API Error ${result.status}: ${text}`);
+  }
   const list = await result.json(); // Parses the JSON response (converting a JSON string into a JavaScript object)
   return list; // Returns the list of tasks
 }
@@ -21,6 +27,10 @@ export const addTask = async (task:InterfaceTask): Promise<InterfaceTask> =>{
     },
     body: JSON.stringify(task) // Converts the task object to JSON
   })
+  if (!result.ok) {
+    const text = await result.text();
+    throw new Error(text);
+  }
   const newTask = await result.json();
   return newTask;
 }
@@ -34,6 +44,10 @@ export const editTask = async (task:InterfaceTaskWithID): Promise<InterfaceTaskW
     },
     body: JSON.stringify(task)
   })
+  if (!result.ok) {
+    const text = await result.text();
+    throw new Error(text);
+  }
   const updatedTask = await result.json();
   return updatedTask;
 }
