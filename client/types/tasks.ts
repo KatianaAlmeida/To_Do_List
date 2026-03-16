@@ -8,5 +8,5 @@ export interface InterfaceTask {
 }
 
 export interface InterfaceIDTask {
-  ID: number
+  id: number
 }

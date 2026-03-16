@@ -36,7 +36,7 @@ export const addTask = async (task:InterfaceTask): Promise<InterfaceTask> =>{
 
 // Function to update an existing task on the API
 export const editTask = async (task:InterfaceTaskWithID): Promise<InterfaceTaskWithID> =>{
-  const result = await fetch(`${baseUrl}/api/todolist/${task.ID}`, {
+  const result = await fetch(`${baseUrl}/api/todolist/${task.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -52,8 +52,8 @@ export const editTask = async (task:InterfaceTaskWithID): Promise<InterfaceTaskW
 }
 
 // Function to delete a task from the API by its ID
-export const deleteTask = async (ID:number): Promise<void> =>{
-  await fetch(`${baseUrl}/api/todolist/${ID}`, {
+export const deleteTask = async (id:number): Promise<void> =>{
+  await fetch(`${baseUrl}/api/todolist/${id}`, {
     method: 'DELETE'
   })
 }
