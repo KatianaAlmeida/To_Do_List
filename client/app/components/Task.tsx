@@ -28,7 +28,7 @@ const Task: React.FC<DisplayListProps> = ({ task }) => {
     e.preventDefault();
     //console.log(newTaskStatus);
     await editTask({
-      ID: task.ID,
+      id: task.id,
       name: editTaskTitle,
       description: editTaskDescr,
       date: editTaskDate,
@@ -119,7 +119,7 @@ const Task: React.FC<DisplayListProps> = ({ task }) => {
                 <h3 className="text-neutral">Are  you sure you want to delete this task?</h3>
                 <div className="modal-action">
                   <button
-                    onClick={() => handleDeleteTask(task.ID)}
+                    onClick={() => handleDeleteTask(task.id)}
                     className="btn">
                       Yes
                   </button>

@@ -15,7 +15,7 @@ const DisplayList: React.FC<DisplayListProps> = ({ tasks }) => {
        {/* Looping through the tasks array and rendering a Task component for each task */}
 
       {tasks.map((task) => (
-        <Task  key={task.ID}  task={task}/> // Passing each task to the Task component
+        <Task  key={task.id}  task={task}/> // Passing each task to the Task component
       ))}
     </div>
   )
