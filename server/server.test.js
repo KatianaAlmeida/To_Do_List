@@ -14,7 +14,7 @@ describe('POST /api/todolist', () => {
     const response = await request(app).post('/api/todolist').send(newTask);
      // Assert that the response status code is 200 (OK)
     expect(response.statusCode).toBe(200);
-    expect(response.body.message).toBe(`Task with the name: ${newTask.name} has been added.`);
+    expect(response.body.message).toBe(`Task "${newTask.name}" has been added.`);
     // Assert that the response has a content-type header containing "json"
     expect(response.headers['content-type']).toEqual(expect.stringContaining("json"));
   });
@@ -40,7 +40,7 @@ describe('PUT /api/todolist/:id', () => {
     };
     const response = await request(app).put(`/api/todolist/${taskId}`).send(updatedTask);
     expect(response.statusCode).toBe(200);
-    expect(response.body.message).toBe(`Task with the name: ${updatedTask.name} has been updated.`);
+    expect(response.body.message).toBe(`Task "${updatedTask.name}" has been updated.`);
   });
 });
 
@@ -49,6 +49,6 @@ describe('DELETE /api/todolist/:id', () => {
     const taskId = 23; // Assuming a task with ID 1 exists
     const response = await request(app).delete(`/api/todolist/${taskId}`);
     expect(response.statusCode).toBe(200);
-    expect(response.body.message).toBe(`Task with the id: ${taskId} has been deleted.`);
+    expect(response.body.message).toBe(`Task with ID ${taskId} has been deleted.`);
   });
 });
